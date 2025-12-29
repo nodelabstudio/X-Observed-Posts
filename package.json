@@ -5,14 +5,16 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node start.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "login": "node login.js",
+    "test": "node start.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "cloudinary": "^2.8.0",
     "dotenv": "^17.2.3",
     "node-fetch": "^2.7.0",
     "playwright": "^1.57.0"

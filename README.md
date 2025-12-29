@@ -1,61 +1,80 @@
 # X Observed Posts
 
-A small Node.js utility to fetch and process observed posts from X (formerly Twitter).
+A small Node.js utility that monitors selected X (Twitter) accounts, captures newly published posts, and pushes structured data into a database for review and reuse.
 
-**Quick overview:** This project provides a minimal script that uses `playwright`, and `dotenv` to load configuration, parse HTML, and make HTTP requests. It is intended as a lightweight example or starting point for integrations that observe or collect posts from X.
+This project is intentionally simple. It’s built to reliably observe posts, extract the parts that matter, and store them somewhere useful.
 
-**Features:**
+## What this does
 
-- **Minimal dependencies:** uses `playwright` for HTML parsing, and `dotenv` for configuration.
-- **Single-file entry:** runs from `index.js` for easy inspection and adaptation.
+- Visits specific X accounts using Playwright
+- Scrapes **recent posts only** (timestamps, text, and post URLs)
+- Captures screenshots of posts
+- Uploads screenshots to Cloudinary
+- Inserts post metadata into the database
+- Skips posts that already exist in Quickbase (URL-based dedupe)
+- Generates short neutral quote-post drafts for later manual use
 
-## Installation
+This currently runs **logged out of X** and still pulls recent posts successfully.
 
-Prerequisites: Node.js 16+ and npm.
+## Setup
 
-1. Clone the repo:
+### Requirements
 
-   git clone https://github.com/angelr1076/X-Observed-Posts.git
-   cd X-Observed-Posts
+- Node.js 18+
+- npm
+- A Quickbase table with the expected fields
+- A Cloudinary account
 
-2. Install dependencies:
-
-   npm install
-
-3. Create a `.env` file in the project root and add any required keys. Example variables this project may use:
-
-   X_API_KEY=your_api_key_here
-   OBSERVED_ACCOUNT=some_username
-
-Adjust names to match whatever `index.js` expects (check the top of the file for exact env var names).
-
-## Usage
-
-Run the main script directly with Node:
+### Install
 
 ```
-node index.js
+npm install
 ```
 
-If your project adds npm scripts you can run them via `npm run <script>`.
+### Environment variables
 
-## Examples
+Create a `.env` file in the project root:
 
-- Basic run (reads `.env`, makes requests):
+```
+X_HANDLES=handle1,handle2,handle3
+QB_REALM=yourrealm
+QB_TABLE_ID=yourtableid
+QB_TOKEN=yourtoken
 
-  ```
-  node index.js
-  ```
+CLOUDINARY_CLOUD_NAME=xxx
+CLOUDINARY_API_KEY=xxx
+CLOUDINARY_API_SECRET=xxx
+```
 
-## Development
+`X_HANDLES` should be a comma-separated list of X usernames **without** the `@`.
 
-- Linting / formatting: none included by default. Add your preferred tools if needed.
-- Tests: there are no tests yet — consider adding a test runner (Jest, Vitest) and CI when expanding the project.
+## Running the script
 
-## Contributing
+```
+npm run start
+```
 
-Contributions are welcome. Open an issue or submit a pull request with a clear description of the change.
+You’ll see console output showing:
 
-## License
+- Which accounts are being scanned
+- Whether the session is logged in or logged out
+- What posts were scraped
+- Which posts were inserted or skipped
 
-This repository uses the ISC license (see `package.json`).
+## Authentication notes
+
+This project currently runs without logging into X.
+
+Earlier experiments with Playwright login, browser profiles, and cookie injection are intentionally **not part of the active flow** anymore. Logged-out access is sufficient for recent posts and keeps the setup deployable (Railway-friendly).
+
+If X tightens access in the future, cookie-based auth can be reintroduced as a fallback, but it’s not required right now.
+
+## Project structure
+
+- `index.js` — main scraper + Quickbase + Cloudinary logic
+- `start.js` — bootstrap helper
+- `screenshots/` — temporary local screenshots (deleted after upload)
+
+## My intent
+
+The intent is to build a lightweight “inbox” of interesting posts from accounts worth watching, so they can be reviewed, quoted, or expanded on later without constantly living inside the X timeline.

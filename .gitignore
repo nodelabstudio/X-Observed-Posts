@@ -27,5 +27,8 @@ yarn-error.log*
 .env*.local
 .env
 
-
+# misc
+instructions.md
+/brave-profile
+x-cookies.json
 
