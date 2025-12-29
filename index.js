@@ -153,7 +153,10 @@ async function run() {
     fs.mkdirSync('screenshots');
   }
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
 
   for (const handle of x_handles) {
     console.log('Scanning', handle);
