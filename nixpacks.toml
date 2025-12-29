@@ -1,9 +1,9 @@
 [phases.setup]
-aptPackages = [
+aptPkgs = [
   "libglib2.0-0",
   "libnss3",
-  "libatk-bridge2.0-0",
   "libatk1.0-0",
+  "libatk-bridge2.0-0",
   "libx11-xcb1",
   "libxcb1",
   "libxcomposite1",
@@ -15,6 +15,5 @@ aptPackages = [
   "libpango-1.0-0",
   "libcairo2",
   "libcups2",
-  "libdrm2",
-  "libxshmfence1"
+  "libdrm2"
 ]
