@@ -162,7 +162,7 @@ async function run() {
     console.log('Scanning', handle);
     const posts = await fetchLatestPostsForHandle(browser, handle, 20);
 
-    for (const post of posts.slice(0, 3)) {
+    for (const post of posts.slice(0, 1)) {
       const exists = await qbRecordExistsURL(post.url);
 
       if (exists) {
