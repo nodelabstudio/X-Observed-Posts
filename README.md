@@ -1,5 +1,7 @@
 # X Observed Posts
 
+<!-- Turned off automation on this one. Not a useful project right now. -->
+
 A small Node.js utility that monitors selected X (Twitter) accounts, captures newly published posts, and pushes structured data into a database for review and reuse.
 
 This project is intentionally simple. It’s built to reliably observe posts, extract the parts that matter, and store them somewhere useful.

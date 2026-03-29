@@ -31,4 +31,5 @@ yarn-error.log*
 instructions.md
 /brave-profile
 x-cookies.json
+.claude
 
